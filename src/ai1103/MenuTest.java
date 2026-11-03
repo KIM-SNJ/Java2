@@ -12,12 +12,24 @@ public class MenuTest extends JFrame {
     JTextArea textArea = new JTextArea();
     JFileChooser fileChooser = new JFileChooser();
     JFrame frame;
+    String[] iconFileNames = {"new", "open", "close", "white", "blue", "magenta"};
+    Color[] colorNames = {Color.WHITE, Color.BLUE, Color.MAGENTA};
+    JButton[] btn = new JButton[6];
 
     public MenuTest() {
         frame = this;
         JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
         add(scrollPane);
+
+        JToolBar toolBar = new JToolBar();
+        add("North", toolBar);
+
+        for (int i = 0; i < btn.length; i++) {
+            btn[i] = new JButton(new ImageIcon("toolbar/" + iconFileNames[i] + ".jpg"));
+            btn[i].addActionListener(btnListener);
+            toolBar.add(btn[i]);
+        }
+
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
@@ -49,6 +61,33 @@ public class MenuTest extends JFrame {
 
         SetFrame.setFrame(this, "메뉴만들기", 500, 500);
     }
+
+    ActionListener btnListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton eBtn = (JButton) e.getSource();
+
+            if (eBtn == btn[0]) {
+                textArea.setText("");
+            }
+            else if (eBtn == btn[1]) {
+                fileChooser.showOpenDialog(frame);
+                File selectedFile = fileChooser.getSelectedFile();
+                if (selectedFile != null) {
+                    textArea.setText(readFile(selectedFile));
+                }
+            }
+            else if (eBtn == btn[2]) {
+                System.exit(0);
+            }
+
+            for (int i = 0; i < colorNames.length; i++) {
+                if (eBtn == btn[i+3]) {
+                    textArea.setBackground(colorNames[i]);
+                }
+            }
+        }
+    };
 
     ActionListener fileListener = new ActionListener() {
         @Override
