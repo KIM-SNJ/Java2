@@ -11,10 +11,13 @@ import java.io.*;
 public class MenuTest extends JFrame {
     JTextArea textArea = new JTextArea();
     JFileChooser fileChooser = new JFileChooser();
-    JFrame frame = new JFrame();
+    JFrame frame;
 
     public MenuTest() {
-        add(textArea);
+        frame = this;
+        JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        add(scrollPane);
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
@@ -58,7 +61,9 @@ public class MenuTest extends JFrame {
                 case "Open":
                     fileChooser.showOpenDialog(frame);
                     selectedFile = fileChooser.getSelectedFile();
-                    textArea.setText(selectedFile.getAbsolutePath());
+                    if (selectedFile != null) {
+                        textArea.setText(readFile(selectedFile));
+                    }
                     break;
                 case "Close":
                     System.exit(0);
@@ -96,8 +101,9 @@ public class MenuTest extends JFrame {
             while ((line = br.readLine()) != null){
                 totalLines += line + "\n";
             }
+            br.close();
         } catch (FileNotFoundException e) {
-            textArea.setText("File not found");
+            return "File not found";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
