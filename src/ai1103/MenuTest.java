@@ -12,9 +12,9 @@ public class MenuTest extends JFrame {
     JTextArea textArea = new JTextArea();
     JFileChooser fileChooser = new JFileChooser();
     JFrame frame;
-    String[] iconFileNames = {"new", "open", "close", "white", "blue", "magenta"};
+    String[] iconFileNames = {"new", "open", "close", "white", "blue", "magenta", "clear"};
     Color[] colorNames = {Color.WHITE, Color.BLUE, Color.MAGENTA};
-    JButton[] btn = new JButton[6];
+    JButton[] btn = new JButton[7];
 
     public MenuTest() {
         frame = this;
@@ -40,9 +40,11 @@ public class MenuTest extends JFrame {
         JMenuItem newMenuItem = new JMenuItem("New");
         JMenuItem openMenuItem = new JMenuItem("Open");
         JMenuItem closeMenuItem = new JMenuItem("Close");
+        JMenuItem clearMenuItem = new JMenuItem("Clear");
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
         fileMenu.add(closeMenuItem);
+        fileMenu.add(clearMenuItem);
 
         JMenuItem whiteMenuItem = new JMenuItem("White");
         JMenuItem blueMenuItem = new JMenuItem("Blue");
@@ -58,6 +60,7 @@ public class MenuTest extends JFrame {
         newMenuItem.addActionListener(fileListener);
         openMenuItem.addActionListener(fileListener);
         closeMenuItem.addActionListener(fileListener);
+        clearMenuItem.addActionListener(fileListener);
 
         SetFrame.setFrame(this, "메뉴만들기", 500, 500);
     }
@@ -79,6 +82,9 @@ public class MenuTest extends JFrame {
             }
             else if (eBtn == btn[2]) {
                 System.exit(0);
+            }
+            else if (eBtn == btn[6]) {
+                textArea.setText("");
             }
 
             for (int i = 0; i < colorNames.length; i++) {
@@ -106,6 +112,9 @@ public class MenuTest extends JFrame {
                     break;
                 case "Close":
                     System.exit(0);
+                    break;
+                case "Clear":
+                    textArea.setText("");
                     break;
             }
         }
